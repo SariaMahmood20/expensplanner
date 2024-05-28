@@ -1,3 +1,4 @@
+import 'package:expensplanner/widgets/userTransaction.dart';
 import 'package:flutter/material.dart';
 import './widgets/transactionList.dart';
 import './widgets/newTransaction.dart';
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Expense Planner',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -33,7 +35,11 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
         title: Text('Expense Planner'),
+        actions: [
+          IconButton(onPressed: (){}, icon: Icon(Icons.add, color: Colors.white,))
+        ],
       ),
 
       body: Column(
@@ -42,17 +48,21 @@ class MyHomePage extends StatelessWidget {
           Container(
             width: double.infinity,
             child: Card(
-              color: Colors.blue,
+              color: Colors.blueAccent,
               child:
                Text('Chart'),
             elevation: 5,),
           ),
-          //Adding a new Transaction
 
-          NewTransaction(),
-          //Transactions
-          TransactionList(),
+          //Adding a new Transaction
+          UserTransaction(),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blueAccent,
+        shape: CircleBorder(eccentricity: 1),
+        child: Icon(Icons.add, color: Colors.white, size: 28,),
+        onPressed: (){},
       ),
     );
   }

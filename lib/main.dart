@@ -1,7 +1,8 @@
-import 'package:expensplanner/widgets/userTransaction.dart';
 import 'package:flutter/material.dart';
+import './models/transaction.dart';
 import './widgets/transactionList.dart';
 import './widgets/newTransaction.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -18,51 +19,79 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Expense Planner',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primarySwatch: Colors.purple,
+        canvasColor: Colors.amber,
       ),
       home: MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   MyHomePage({super.key});
 
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
 
+class _MyHomePageState extends State<MyHomePage> {
+  final List<Transaction> _userTransaction=[
+    // Transaction( id: 't1', title: 'New Shoes', amount: 5000, date: DateTime.now()),
+    // Transaction( id: 't2', title: 'Weekly Groceries', amount: 6000, date: DateTime.now()),
+  ];
+
+  void _addNewTransaction(String txTitle, double txAmount)
+  {
+    final newTx = Transaction(
+        id: DateTime.now().toString(),
+        title: txTitle,
+        amount: txAmount,
+        date: DateTime.now()
+    );
+    setState(() {
+      _userTransaction.add(newTx);
+    });
+  }
+
+  void _startAddNewTransaction(BuildContext ctx)
+  {
+    showModalBottomSheet(context: ctx, builder: (_) {
+      return GestureDetector(onTap: (){},child: NewTransaction(_addNewTransaction));
+    },);
+  }
 
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text('Expense Planner'),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.add, color: Colors.white,))
+          IconButton(onPressed: ()=> _startAddNewTransaction(context), icon: Icon(Icons.add, color: Colors.white,))
         ],
       ),
 
-      body: Column(
-        children: [
-          //Charts
-          Container(
-            width: double.infinity,
-            child: Card(
-              color: Colors.blueAccent,
-              child:
-               Text('Chart'),
-            elevation: 5,),
-          ),
-
-          //Adding a new Transaction
-          UserTransaction(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            //Charts
+            Container(
+              width: double.infinity,
+              child: Card(
+                color: Colors.blueAccent,
+                child:
+                 Text('Chart'),
+              elevation: 5,),
+            ),
+            TransactionList(_userTransaction),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Theme.of(context).canvasColor,
         shape: CircleBorder(eccentricity: 1),
-        child: Icon(Icons.add, color: Colors.white, size: 28,),
-        onPressed: (){},
+        child: Icon(Icons.add, color: Colors.black, size: 28,),
+        onPressed: ()=> _startAddNewTransaction(context),
       ),
     );
   }

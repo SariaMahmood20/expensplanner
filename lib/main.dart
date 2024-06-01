@@ -37,8 +37,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransaction=[
-    // Transaction( id: 't1', title: 'New Shoes', amount: 5000, date: DateTime.now()),
-    // Transaction( id: 't2', title: 'Weekly Groceries', amount: 6000, date: DateTime.now()),
+    Transaction( id: 't1', title: 'New Shoes', amount: 5000, date: DateTime.now()),
+    Transaction( id: 't2', title: 'Weekly Groceries', amount: 6000, date: DateTime.now()),
   ];
 
   List<Transaction> get _recentTransactions{
@@ -88,12 +88,12 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).canvasColor,
-        shape: CircleBorder(eccentricity: 1),
-        child: Icon(Icons.add, color: Colors.black, size: 28,),
-        onPressed: ()=> _startAddNewTransaction(context),
-      ),
+      floatingActionButton:  FloatingActionButton(
+          backgroundColor: Theme.of(context).canvasColor,
+          shape: CircleBorder(eccentricity: 1),
+          child: Icon(Icons.add, color: Colors.black, size: 28,),
+          onPressed: ()=> _startAddNewTransaction(context),
+        ),
     );
   }
 }

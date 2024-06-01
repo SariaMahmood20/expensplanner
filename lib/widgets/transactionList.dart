@@ -3,58 +3,54 @@ import '../models/transaction.dart';
 import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
-  TransactionList(this.transactions,{super.key});
+  TransactionList(this.transactions, {super.key});
   final List<Transaction> transactions;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 300,
-      child:transactions.isEmpty?
-      Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text('No transactions are added yet!',
-          style: TextStyle(
-            fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).primaryColorDark
-          ),),
-          Image.asset('assets/images/zzz.png', height: 200,width: 200,)
-        ],
-      )
-      : ListView.builder(
-        itemBuilder: (ctx, index){
-           return Card(
-            child: Row(
+      child: transactions.isEmpty
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  child: Text(
-                    'Rs. ${transactions[index].amount.toString()}',
-                    style:TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 18, color: Theme.of(context).primaryColorDark
-                    ),
-                  ),
-
-                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Theme.of(context).primaryColorDark, width: 2, ),
-                  ),
-                  padding: EdgeInsets.all(10),
-
+                Text(
+                  'No transactions are added yet!',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Theme.of(context).primaryColorDark),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(transactions[index].title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, ),),
-                    Text( DateFormat.yMMMd().format(transactions[index].date), style: TextStyle(fontWeight: FontWeight.w100, fontSize: 10, color: Colors.grey),),
-                  ],
+                Image.asset(
+                  'assets/images/zzz.png',
+                  height: 200,
+                  width: 200,
                 )
               ],
+            )
+          : ListView.builder(
+              itemBuilder: (ctx, index) {
+                return Card(
+                  elevation: 5,
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Theme.of(context).primaryColorDark,
+                      radius: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FittedBox
+                          (child: Text('Rs ${transactions[index].amount}', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColorLight),)),
+                      ),
+                    ),
+                    title: Text(transactions[index].title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+                    subtitle: Text(DateFormat.yMMMd().format(transactions[index].date), style: TextStyle(fontSize: 10, fontWeight: FontWeight.w100, color: Colors.grey),),
+
+                  ),
+                );
+              },
+              itemCount: transactions.length,
             ),
-          );
-        },
-        itemCount: transactions.length,
-      ),
     );
   }
 }

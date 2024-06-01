@@ -13,7 +13,9 @@ class ChartBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Column(
       children: [
-       Text('Rs ${spendingAmount as double}'),
+        Container(
+            height: 20,
+            child: FittedBox(child: Text('Rs ${perctTotal as double}'))),
         SizedBox(height: 4,),
         Container(
           height: 60,
@@ -28,7 +30,7 @@ class ChartBar extends StatelessWidget {
 
                 ),
               ),
-              FractionallySizedBox(heightFactor: perctTotal / 10000,
+              FractionallySizedBox(heightFactor: spendingAmount,
               child: Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColorDark,

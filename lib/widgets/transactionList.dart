@@ -3,13 +3,13 @@ import '../models/transaction.dart';
 import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
-  TransactionList(this.transactions, {super.key});
+  TransactionList(this.transactions, this.deletetx,{super.key});
   final List<Transaction> transactions;
-
+  final Function deletetx;
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 450,
       child: transactions.isEmpty
           ? Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -34,18 +34,20 @@ class TransactionList extends StatelessWidget {
                   elevation: 5,
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
                   child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Theme.of(context).primaryColorDark,
-                      radius: 30,
+                    leading: Container(
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(7),),
+                        border: Border.all(color: Theme.of(context).primaryColorDark, width: 2)
+                      ),
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FittedBox
-                          (child: Text('Rs ${transactions[index].amount}', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColorLight),)),
+                        padding: const EdgeInsets.all(2.0),
+                        child:  Text('Rs ${transactions[index].amount}', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColorDark, fontSize: 18),),
                       ),
                     ),
                     title: Text(transactions[index].title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
                     subtitle: Text(DateFormat.yMMMd().format(transactions[index].date), style: TextStyle(fontSize: 10, fontWeight: FontWeight.w100, color: Colors.grey),),
-
+                    trailing: IconButton(onPressed:()=> deletetx(transactions[index].id), icon: Icon(Icons.delete, color: Colors.red,)),
                   ),
                 );
               },

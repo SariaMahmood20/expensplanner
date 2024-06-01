@@ -13,17 +13,17 @@ class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
 
-  DateTime? _selectedDate;
+  DateTime _selectedDate=DateTime(2019);
 
   void _submitData() {
     final enteredTitle = _titleController.text;
     final enteredAmount = double.parse(_amountController.text);
 
-    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+    if (enteredTitle.isEmpty || enteredAmount <= 0 || _selectedDate==null) {
       return;
     }
 
-    widget.addTx(enteredTitle, enteredAmount);
+    widget.addTx(enteredTitle, enteredAmount, _selectedDate);
 
     Navigator.of(context).pop();
   }
@@ -49,7 +49,7 @@ class _NewTransactionState extends State<NewTransaction> {
     return Container(
       child: Card(
         child: Container(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(11),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -69,9 +69,11 @@ class _NewTransactionState extends State<NewTransaction> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(_selectedDate == null
-                        ? 'No Date Chosen'
-                        :  DateFormat.yMd(_selectedDate).toString()),
+                    Expanded(
+                      child: Text(_selectedDate == null
+                          ? 'No Date Chosen'
+                          :  'Picked Date  '+DateFormat.yMd().format(_selectedDate)),
+                    ),
                     OutlinedButton(
                         onPressed: _presentDatePicker,
                         child: Text(

@@ -20,8 +20,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Expense Planner',
       theme: ThemeData(
+
         primarySwatch: Colors.purple,
         canvasColor: Colors.amber,
+
       ),
       home: MyHomePage(),
     );
@@ -38,7 +40,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransaction=[
     Transaction( id: 't1', title: 'New Shoes', amount: 5000, date: DateTime.now()),
-    Transaction( id: 't2', title: 'Weekly Groceries', amount: 6000, date: DateTime.now()),
+    // Transaction( id: 't2', title: 'Weekly Groceries', amount: 6000, date: DateTime.now()),
   ];
 
   List<Transaction> get _recentTransactions{
@@ -48,13 +50,13 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }).toList();
   }
-  void _addNewTransaction(String txTitle, double txAmount)
+  void _addNewTransaction(String txTitle, double txAmount, DateTime chosenDate)
   {
     final newTx = Transaction(
         id: DateTime.now().toString(),
         title: txTitle,
         amount: txAmount,
-        date: DateTime.now()
+        date: chosenDate,
     );
     setState(() {
       _userTransaction.add(newTx);
@@ -66,6 +68,15 @@ class _MyHomePageState extends State<MyHomePage> {
     showModalBottomSheet(context: ctx, builder: (_) {
       return GestureDetector(onTap: (){},child: NewTransaction(_addNewTransaction));
     },);
+  }
+
+  void _deleteTransaction(String id)
+  {
+    setState(() {
+      _userTransaction.removeWhere((tx){
+        return tx.id==id;
+      });
+    });
   }
 
   @override
@@ -84,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             //Charts
             Chart(_recentTransactions),
-            TransactionList(_userTransaction),
+            TransactionList(_userTransaction, _deleteTransaction),
           ],
         ),
       ),

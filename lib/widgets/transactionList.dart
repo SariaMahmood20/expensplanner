@@ -8,10 +8,8 @@ class TransactionList extends StatelessWidget {
   final Function deletetx;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 450,
-      child: transactions.isEmpty
-          ? Column(
+    return transactions.isEmpty
+              ? Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
@@ -52,7 +50,6 @@ class TransactionList extends StatelessWidget {
                 );
               },
               itemCount: transactions.length,
-            ),
-    );
+            );
   }
 }
